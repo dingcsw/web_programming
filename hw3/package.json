@@ -1,0 +1,11 @@
+{
+  "name": "hw3",
+  "version": "1.0.0",
+  "description": "express and github practice",
+  "main": "hw3.js",
+  "author": "dingcsw",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+  }
+}
