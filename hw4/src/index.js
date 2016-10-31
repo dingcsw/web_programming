@@ -9,6 +9,8 @@ class TodoApp extends Component {
       inputValue: ''
     };
     this.onEnter = this.onEnter.bind(this);
+    this.destroyItem = this.destroyItem.bind(this);
+    this.clearCompleted = this.clearCompleted.bind(this);
   }
 
   onEnter(event) {
@@ -17,7 +19,7 @@ class TodoApp extends Component {
         todoCount: this.state.todoCount + 1,
         items: this.state.items.concat([{
           content: event.target.value,
-          completed: ''
+          completed: false
         }])
       });
       console.log('New todo \'' + event.target.value + '\' added.');
@@ -28,12 +30,12 @@ class TodoApp extends Component {
   changeCompleted(index) {
     this.setState((state) => {
       const item = state.items[index];
-      if (item.completed === '') {
-        item.completed = 'completed';
-        state.todoCount -= 1;
-      } else {
-        item.completed = '';
+      if (item.completed) {
+        item.completed = false;
         state.todoCount += 1;
+      } else {
+        item.completed = true;
+        state.todoCount -= 1;
       }
       return state;
     });  
@@ -41,7 +43,7 @@ class TodoApp extends Component {
 
   destroyItem(index) {
     this.setState((state) => {
-      if (state.items[index].completed === '') {
+      if (!state.items[index].completed) {
         state.todoCount -= 1;
       }
       state.items.splice(index, 1);
@@ -49,7 +51,24 @@ class TodoApp extends Component {
     });
   }
 
+  clearCompleted() {
+    this.setState((state) => {
+      let i = state.items.length;
+      while (i--) {
+        if (state.items[i].completed) {
+          state.items.splice(i, 1);
+        }
+      }
+      return state;
+    });
+  }
+
   render() {
+    const displayFooter = this.state.items.length > 0 ? true : false;
+    const displayClear = this.state.items.some((item) => {
+      return item.completed;
+    });
+
     return (
       <section className="todoapp">
         <header className="header">
@@ -75,18 +94,31 @@ class TodoApp extends Component {
             ))
           }</ul>
         </section>  
-        <Footer count={this.state.todoCount}/>
+        <CountDisplay 
+          count={this.state.todoCount} 
+          displayFooter={displayFooter}
+          displayClear={displayClear}
+          clearCompleted={this.clearCompleted}
+        />
       </section>
     );
   }
 }
 
-class Footer extends Component {
+// footer part
+class CountDisplay extends Component {
   render() {
     return (
-      <footer className="footer">
+      <footer 
+        className="footer" 
+        style={{display: this.props.displayFooter ? 'block' : 'none' }}>
         <span className="todo-count">{this.props.count} item(s) left</span>
-        <button className="clear-completed">Clear completed</button>
+        <button 
+          className="clear-completed" 
+          style={{display: this.props.displayClear > 0 ? 'block' : 'none'}}
+          onClick={this.props.clearCompleted}>
+          Clear completed
+        </button>
       </footer>
     );
   }
@@ -95,31 +127,19 @@ class Footer extends Component {
 class TodoItem extends Component {
   render() {
     const { completed, changeCompleted, content, destroyItem } = this.props;
-    const isChecked = completed ? true : false;
     return (
       <div className="view">
-        <li className={completed}>
+        <li className={completed ? 'completed' : ''}>
           <input 
             className="toggle" 
             type="checkbox" 
             onChange={changeCompleted} 
-            checked={isChecked}
+            checked={completed}
           />
           <label>{content}</label>
           <button className="destroy" onClick={destroyItem}></button>
         </li>
       </div>
-    );
-  }
-}
-
-class CountDisplay extends Component {
-  render() {
-    return (
-      <footer class="footer">
-        <span class="todo-count"></span>
-        <button class="clear-completed" onClick={this.onClick}>Clear completed</button>
-      </footer>
     );
   }
 }

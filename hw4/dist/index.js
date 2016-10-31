@@ -25,6 +25,8 @@ var TodoApp = function (_Component) {
       inputValue: ''
     };
     _this.onEnter = _this.onEnter.bind(_this);
+    _this.destroyItem = _this.destroyItem.bind(_this);
+    _this.clearCompleted = _this.clearCompleted.bind(_this);
     return _this;
   }
 
@@ -36,7 +38,7 @@ var TodoApp = function (_Component) {
           todoCount: this.state.todoCount + 1,
           items: this.state.items.concat([{
             content: event.target.value,
-            completed: ''
+            completed: false
           }])
         });
         console.log('New todo \'' + event.target.value + '\' added.');
@@ -48,12 +50,12 @@ var TodoApp = function (_Component) {
     value: function changeCompleted(index) {
       this.setState(function (state) {
         var item = state.items[index];
-        if (item.completed === '') {
-          item.completed = 'completed';
-          state.todoCount -= 1;
-        } else {
-          item.completed = '';
+        if (item.completed) {
+          item.completed = false;
           state.todoCount += 1;
+        } else {
+          item.completed = true;
+          state.todoCount -= 1;
         }
         return state;
       });
@@ -62,7 +64,7 @@ var TodoApp = function (_Component) {
     key: 'destroyItem',
     value: function destroyItem(index) {
       this.setState(function (state) {
-        if (state.items[index].completed === '') {
+        if (!state.items[index].completed) {
           state.todoCount -= 1;
         }
         state.items.splice(index, 1);
@@ -70,9 +72,27 @@ var TodoApp = function (_Component) {
       });
     }
   }, {
+    key: 'clearCompleted',
+    value: function clearCompleted() {
+      this.setState(function (state) {
+        var i = state.items.length;
+        while (i--) {
+          if (state.items[i].completed) {
+            state.items.splice(i, 1);
+          }
+        }
+        return state;
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
+
+      var displayFooter = this.state.items.length > 0 ? true : false;
+      var displayClear = this.state.items.some(function (item) {
+        return item.completed;
+      });
 
       return React.createElement(
         'section',
@@ -117,7 +137,12 @@ var TodoApp = function (_Component) {
             })
           )
         ),
-        React.createElement(Footer, { count: this.state.todoCount })
+        React.createElement(CountDisplay, {
+          count: this.state.todoCount,
+          displayFooter: displayFooter,
+          displayClear: displayClear,
+          clearCompleted: this.clearCompleted
+        })
       );
     }
   }]);
@@ -125,21 +150,26 @@ var TodoApp = function (_Component) {
   return TodoApp;
 }(Component);
 
-var Footer = function (_Component2) {
-  _inherits(Footer, _Component2);
+// footer part
 
-  function Footer() {
-    _classCallCheck(this, Footer);
 
-    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+var CountDisplay = function (_Component2) {
+  _inherits(CountDisplay, _Component2);
+
+  function CountDisplay() {
+    _classCallCheck(this, CountDisplay);
+
+    return _possibleConstructorReturn(this, (CountDisplay.__proto__ || Object.getPrototypeOf(CountDisplay)).apply(this, arguments));
   }
 
-  _createClass(Footer, [{
+  _createClass(CountDisplay, [{
     key: 'render',
     value: function render() {
       return React.createElement(
         'footer',
-        { className: 'footer' },
+        {
+          className: 'footer',
+          style: { display: this.props.displayFooter ? 'block' : 'none' } },
         React.createElement(
           'span',
           { className: 'todo-count' },
@@ -148,14 +178,17 @@ var Footer = function (_Component2) {
         ),
         React.createElement(
           'button',
-          { className: 'clear-completed' },
+          {
+            className: 'clear-completed',
+            style: { display: this.props.displayClear > 0 ? 'block' : 'none' },
+            onClick: this.props.clearCompleted },
           'Clear completed'
         )
       );
     }
   }]);
 
-  return Footer;
+  return CountDisplay;
 }(Component);
 
 var TodoItem = function (_Component3) {
@@ -176,18 +209,17 @@ var TodoItem = function (_Component3) {
           content = _props.content,
           destroyItem = _props.destroyItem;
 
-      var isChecked = completed ? true : false;
       return React.createElement(
         'div',
         { className: 'view' },
         React.createElement(
           'li',
-          { className: completed },
+          { className: completed ? 'completed' : '' },
           React.createElement('input', {
             className: 'toggle',
             type: 'checkbox',
             onChange: changeCompleted,
-            checked: isChecked
+            checked: completed
           }),
           React.createElement(
             'label',
@@ -201,34 +233,6 @@ var TodoItem = function (_Component3) {
   }]);
 
   return TodoItem;
-}(Component);
-
-var CountDisplay = function (_Component4) {
-  _inherits(CountDisplay, _Component4);
-
-  function CountDisplay() {
-    _classCallCheck(this, CountDisplay);
-
-    return _possibleConstructorReturn(this, (CountDisplay.__proto__ || Object.getPrototypeOf(CountDisplay)).apply(this, arguments));
-  }
-
-  _createClass(CountDisplay, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'footer',
-        { 'class': 'footer' },
-        React.createElement('span', { 'class': 'todo-count' }),
-        React.createElement(
-          'button',
-          { 'class': 'clear-completed', onClick: this.onClick },
-          'Clear completed'
-        )
-      );
-    }
-  }]);
-
-  return CountDisplay;
 }(Component);
 
 ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('root'));
