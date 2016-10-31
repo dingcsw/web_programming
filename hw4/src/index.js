@@ -11,6 +11,7 @@ class TodoApp extends Component {
     this.onEnter = this.onEnter.bind(this);
     this.destroyItem = this.destroyItem.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
+    this.toggleAll = this.toggleAll.bind(this);
   }
 
   onEnter(event) {
@@ -63,9 +64,32 @@ class TodoApp extends Component {
     });
   }
 
+  toggleAll() {
+    this.setState((state) => {
+      const allChecked = state.items.every((item) => {
+      return item.completed;
+      }) && state.items.length > 0;
+      if (allChecked) {
+        state.items.forEach((item) => {
+          item.completed = false;
+        });
+        state.todoCount = state.items.length;
+      } else {
+        state.items.forEach((item) => {
+          item.completed = true;
+        });
+        state.todoCount = 0;
+      }
+      return state;
+    });
+  }
+
   render() {
-    const displayFooter = this.state.items.length > 0 ? true : false;
+    const notEmpty = this.state.items.length > 0 ? true : false;
     const displayClear = this.state.items.some((item) => {
+      return item.completed;
+    });
+    const allChecked = this.state.items.every((item) => {
       return item.completed;
     });
 
@@ -80,7 +104,7 @@ class TodoApp extends Component {
           </input>
         </header>
         <section className="main">
-          <input className="toggle-all" type="checkbox"/>
+          { notEmpty ? <input className="toggle-all" type="checkbox" onClick={this.toggleAll} checked={allChecked}/> : null}
           <label htmlFor="toggle-all">Mark all as complete></label>
           <ul className="todo-list">{
             this.state.items.map((item, key) => (
@@ -96,7 +120,7 @@ class TodoApp extends Component {
         </section>  
         <CountDisplay 
           count={this.state.todoCount} 
-          displayFooter={displayFooter}
+          displayFooter={notEmpty}
           displayClear={displayClear}
           clearCompleted={this.clearCompleted}
         />

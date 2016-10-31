@@ -27,6 +27,7 @@ var TodoApp = function (_Component) {
     _this.onEnter = _this.onEnter.bind(_this);
     _this.destroyItem = _this.destroyItem.bind(_this);
     _this.clearCompleted = _this.clearCompleted.bind(_this);
+    _this.toggleAll = _this.toggleAll.bind(_this);
     return _this;
   }
 
@@ -85,12 +86,36 @@ var TodoApp = function (_Component) {
       });
     }
   }, {
+    key: 'toggleAll',
+    value: function toggleAll() {
+      this.setState(function (state) {
+        var allChecked = state.items.every(function (item) {
+          return item.completed;
+        }) && state.items.length > 0;
+        if (allChecked) {
+          state.items.forEach(function (item) {
+            item.completed = false;
+          });
+          state.todoCount = state.items.length;
+        } else {
+          state.items.forEach(function (item) {
+            item.completed = true;
+          });
+          state.todoCount = 0;
+        }
+        return state;
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var displayFooter = this.state.items.length > 0 ? true : false;
+      var notEmpty = this.state.items.length > 0 ? true : false;
       var displayClear = this.state.items.some(function (item) {
+        return item.completed;
+      });
+      var allChecked = this.state.items.every(function (item) {
         return item.completed;
       });
 
@@ -113,7 +138,7 @@ var TodoApp = function (_Component) {
         React.createElement(
           'section',
           { className: 'main' },
-          React.createElement('input', { className: 'toggle-all', type: 'checkbox' }),
+          notEmpty ? React.createElement('input', { className: 'toggle-all', type: 'checkbox', onClick: this.toggleAll, checked: allChecked }) : null,
           React.createElement(
             'label',
             { htmlFor: 'toggle-all' },
@@ -139,7 +164,7 @@ var TodoApp = function (_Component) {
         ),
         React.createElement(CountDisplay, {
           count: this.state.todoCount,
-          displayFooter: displayFooter,
+          displayFooter: notEmpty,
           displayClear: displayClear,
           clearCompleted: this.clearCompleted
         })
