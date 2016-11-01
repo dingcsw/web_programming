@@ -19,3 +19,5 @@ class TodoItem extends Component {
     );
   }
 }
+
+module.exports = TodoItem;

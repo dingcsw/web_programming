@@ -17,3 +17,5 @@ class CountDisplay extends Component {
     );
   }
 }
+
+module.exports = CountDisplay;
