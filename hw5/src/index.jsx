@@ -1,4 +1,10 @@
-const { Component } = React;
+require('./todo.css');
+
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+
+const TodoItem = require('./TodoItem.jsx');
+const CountDisplay = require('./CountDisplay.jsx');
 
 class TodoApp extends Component {
   constructor(props) {
@@ -125,45 +131,6 @@ class TodoApp extends Component {
           clearCompleted={this.clearCompleted}
         />
       </section>
-    );
-  }
-}
-
-// footer part
-class CountDisplay extends Component {
-  render() {
-    return (
-      <footer 
-        className="footer" 
-        style={{display: this.props.displayFooter ? 'block' : 'none' }}>
-        <span className="todo-count">{this.props.count} item(s) left</span>
-        <button 
-          className="clear-completed" 
-          style={{display: this.props.displayClear > 0 ? 'block' : 'none'}}
-          onClick={this.props.clearCompleted}>
-          Clear completed
-        </button>
-      </footer>
-    );
-  }
-}
-
-class TodoItem extends Component {
-  render() {
-    const { completed, changeCompleted, content, destroyItem } = this.props;
-    return (
-      <div className="view">
-        <li className={completed ? 'completed' : ''}>
-          <input 
-            className="toggle" 
-            type="checkbox" 
-            onChange={changeCompleted} 
-            checked={completed}
-          />
-          <label>{content}</label>
-          <button className="destroy" onClick={destroyItem}></button>
-        </li>
-      </div>
     );
   }
 }
