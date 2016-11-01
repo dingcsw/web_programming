@@ -1,10 +1,9 @@
-require('./todo.css');
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import TodoItem from './TodoItem.jsx';
+import CountDisplay from './CountDisplay.jsx';
 
-const TodoItem = require('./TodoItem.jsx');
-const CountDisplay = require('./CountDisplay.jsx');
+import './todo.css';
 
 class TodoApp extends Component {
   constructor(props) {
