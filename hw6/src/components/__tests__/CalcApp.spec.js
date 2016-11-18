@@ -53,6 +53,24 @@ it('AC should clear state', () => {
   expect(app.state()).toEqual(initialState);
 });
 
+it('buttons with no implementation', () => {
+  const app = mount(<CalcApp />);
+
+  const initialState = app.state();
+
+  const rows = app.find('.calc-row');
+  const row0 = rows.at(0);
+  const AC = row0.find(CalcButton).at(0);
+
+  const row1 = rows.at(1);
+  const btn7 = row1.find(CalcButton).at(0);
+
+  btn7.simulate('click');
+  AC.simulate('click');
+
+  expect(app.state()).toEqual(initialState);
+});
+
 describe('testing arithmetic functions', () => {
   it('testing 1 + 2 = -> 3', () => {
     const app = mount(<CalcApp />);
