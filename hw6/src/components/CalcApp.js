@@ -32,26 +32,20 @@ class CalcApp extends React.Component {
         } else {
           state.numA = (state.numA === '0' ? num : state.numA + num);
         }
-      } else if (state.operator === '=') {
-        state.numA = num;
-        state.operator = '';
       } else {
         state.numB = (state.numB === '0' ? num : state.numB + num);
       }
-      console.log(state);
+      // console.log(state);
       return state;
     });
   }
 
   setOperator(ch) {
     this.setState((state) => {
-      if (state.numA === '') {
-        state.numA = '0';
-      }
       if (state.operator[0] === '=' && ch === '=') {
         state.numB = state.operator.substring(2);
         state.operator = state.operator[1];
-        console.log(state); 
+        // console.log(state); 
       }
       if (state.operator !== '' && state.numB !== '') {
         switch (state.operator) {
@@ -64,7 +58,7 @@ class CalcApp extends React.Component {
       }
       state.operator = (ch === '=' ? '=' + state.operator + state.numB : ch); 
       state.numB = '';
-      console.log(state); 
+      // console.log(state); 
       return state;
     });
   }
