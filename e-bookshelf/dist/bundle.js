@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".col-md-4 {\n\tbackground-color: none;\n}\n\n.col-md-12 {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bottom-buffer { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -21867,18 +21867,13 @@
 	  _createClass(Library, [{
 	    key: 'newBookshelf',
 	    value: function newBookshelf(event) {
-	      var _this2 = this;
+	      var value = this.textInput.value;
 
-	      if (event.keyCode === 13 && event.target.value !== '') {
-	        (function () {
-	          var value = event.target.value;
-	          _this2.setState(function (state) {
-	            state.bookshelves.push(value);
-	            return state;
-	          });
-	          event.target.value = '';
-	        })();
-	      }
+	      this.setState(function (state) {
+	        state.bookshelves.push(value);
+	        return state;
+	      });
+	      this.textInput.value = '';
 	    }
 	  }, {
 	    key: 'renderBookshelves',
@@ -21890,22 +21885,86 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'container' },
+	        null,
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'row' },
-	          _react2.default.createElement('input', {
-	            className: 'new-bookshelf',
-	            placeholder: 'Add new bookshelf...',
-	            onKeyDown: this.newBookshelf
-	          })
+	          'nav',
+	          { className: 'navbar navbar-default navbar-static-top' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'container' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'navbar-header' },
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'navbar-brand', href: '#/' },
+	                'E-Bookshelf'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'nav navbar-nav' },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#/' },
+	                  'Home'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#/bookshelves' },
+	                  'Bookshelves'
+	                )
+	              )
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'row' },
-	          this.renderBookshelves()
+	          { className: 'container' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row bottom-buffer' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-group col-md-3' },
+	              _react2.default.createElement('input', {
+	                type: 'text',
+	                className: 'form-control',
+	                placeholder: 'New bookshelf...',
+	                ref: function ref(input) {
+	                  _this2.textInput = input;
+	                }
+	              }),
+	              _react2.default.createElement(
+	                'span',
+	                { className: 'input-group-btn' },
+	                _react2.default.createElement(
+	                  'button',
+	                  {
+	                    className: 'btn btn-secondary',
+	                    type: 'button',
+	                    onClick: this.newBookshelf },
+	                  'Add'
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            this.renderBookshelves()
+	          )
 	        )
 	      );
 	    }
@@ -22023,57 +22082,53 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'col-md-4' },
+	        { className: 'col-md-4 bookshelf' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-md-12' },
+	          null,
+	          'Bookself name: ',
+	          name
+	        ),
+	        _react2.default.createElement('input', {
+	          className: 'new-book',
+	          placeholder: 'Add new book...',
+	          onKeyDown: this.newBook
+	        }),
+	        _react2.default.createElement(
+	          'table',
+	          { className: 'table table-hover' },
 	          _react2.default.createElement(
-	            'div',
+	            'thead',
 	            null,
-	            'Bookself name: ',
-	            name
-	          ),
-	          _react2.default.createElement('input', {
-	            className: 'new-book',
-	            placeholder: 'Add new book...',
-	            onKeyDown: this.newBook
-	          }),
-	          _react2.default.createElement(
-	            'table',
-	            { className: 'table table-hover' },
 	            _react2.default.createElement(
-	              'thead',
+	              'tr',
 	              null,
 	              _react2.default.createElement(
-	                'tr',
+	                'th',
 	                null,
-	                _react2.default.createElement(
-	                  'th',
-	                  null,
-	                  '#'
-	                ),
-	                _react2.default.createElement(
-	                  'th',
-	                  null,
-	                  'Title'
-	                ),
-	                _react2.default.createElement(
-	                  'th',
-	                  null,
-	                  'Author'
-	                ),
-	                _react2.default.createElement(
-	                  'th',
-	                  null,
-	                  'Ranking'
-	                )
+	                '#'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Title'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Author'
+	              ),
+	              _react2.default.createElement(
+	                'th',
+	                null,
+	                'Ranking'
 	              )
-	            ),
-	            _react2.default.createElement(
-	              'tbody',
-	              null,
-	              this.renderBooks()
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'tbody',
+	            null,
+	            this.renderBooks()
 	          )
 	        )
 	      );

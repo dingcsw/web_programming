@@ -48,30 +48,28 @@ class Bookshelf extends Component {
     const { name, books } = this.state;
 
     return (
-      <div className="col-md-4">
-        <div className="col-md-12">    
-          <div>
-            Bookself name: {name}
-          </div>
-          <input 
-            className="new-book" 
-            placeholder="Add new book..." 
-            onKeyDown={this.newBook}
-          />
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Ranking</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.renderBooks()}
-            </tbody>
-          </table>
+      <div className="col-md-4 bookshelf">
+        <div>
+          Bookself name: {name}
         </div>
+        <input 
+          className="new-book" 
+          placeholder="Add new book..." 
+          onKeyDown={this.newBook}
+        />
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Ranking</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.renderBooks()}
+          </tbody>
+        </table>
       </div>
     );
   }
