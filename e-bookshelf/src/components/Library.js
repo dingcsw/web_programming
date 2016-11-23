@@ -13,7 +13,7 @@ class Library extends Component {
     this.renderBookshelves = this.renderBookshelves.bind(this);
   }
 
-  newBookshelf(event) {
+  newBookshelf() {
     const { value } = this.textInput;
     this.setState((state) => {
       state.bookshelves.push(value);
@@ -47,7 +47,7 @@ class Library extends Component {
           </div>
         </nav>
         <div className="container">
-          <div className="row bottom-buffer">
+          <div className="row bottom-buffer-20">
             <div className="input-group col-md-3">
               <input 
                 type="text" 

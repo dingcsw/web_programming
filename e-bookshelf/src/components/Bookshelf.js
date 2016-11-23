@@ -4,39 +4,42 @@ class Bookshelf extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.name,
-      books: []
+      books: [],
+      showInputField: false
     };
 
     this.newBook = this.newBook.bind(this);
+    this.showOrHideInputField = this.showOrHideInputField.bind(this);
     this.renderBooks = this.renderBooks.bind(this);
   }
 
-  componentDid
+  newBook() {
+    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value)
+      .then(res => res.json())
+      .then(json => this.setState((state) => {
+        if (json.totalItems === 0) return state;
+        const book = json.items[0];
+        state.books.push({
+          title: book['volumeInfo']['title'],
+          author: book['volumeInfo']['authors'][0],
+          ranking: 0,            
+        })
+        return state;
+      }));
+    this.textInput.value = '';
+  }
 
-  newBook(event) {
-    if (event.keyCode === 13 && event.target.value !== '') {
-      fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + event.target.value)
-        .then(res => res.json())
-        .then(json => this.setState((state) => {
-          if (json.totalItems === 0) return state;
-          const book = json.items[0];
-          state.books.push({
-            title: book['volumeInfo']['title'],
-            author: book['volumeInfo']['authors'][0],
-            ranking: 0,            
-          })
-          return state;
-        }));
-      event.target.value = '';
-    }
+  showOrHideInputField() {
+    this.setState((state) => {
+      state.showInputField = !state.showInputField;
+      return state;
+    })
   }
 
   renderBooks() {
     const { books } = this.state;
     return books.map((item, key) => (
       <tr key={key}>
-        <th>{key + 1}</th>
         <td>{item.title}</td>
         <td>{item.author}</td>
         <td>{item.ranking}</td>
@@ -45,22 +48,15 @@ class Bookshelf extends Component {
   }
 
   render() {
-    const { name, books } = this.state;
+    const { books, showInputField } = this.state;
+    const { name } = this.props;
 
     return (
-      <div className="col-md-4 bookshelf">
-        <div>
-          Bookself name: {name}
-        </div>
-        <input 
-          className="new-book" 
-          placeholder="Add new book..." 
-          onKeyDown={this.newBook}
-        />
+      <div className="col-md-4  bookshelf">
+        <div className="bookshelf-name">{name}</div>
         <table className="table table-hover">
           <thead>
             <tr>
-              <th>#</th>
               <th>Title</th>
               <th>Author</th>
               <th>Ranking</th>
@@ -70,6 +66,40 @@ class Bookshelf extends Component {
             {this.renderBooks()}
           </tbody>
         </table>
+
+        <div>
+          <span>
+            <button 
+              type="button" 
+              className="btn btn-default btn-xs"
+              onClick={this.showOrHideInputField}>
+              <span 
+                className={"glyphicon " + (showInputField ? 'glyphicon-minus' : 'glyphicon-plus')} 
+                aria-hidden="true"
+              />
+            </button>
+          </span>
+          <span className="pull-right">
+            Total books: {books.length}
+          </span>
+        </div>
+
+        <div className={"input-group top-buffer-10 " + (showInputField ? '': 'hidden')}>
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="New book..."
+            ref={(ref) => { this.textInput = ref; }}
+          />
+          <span className="input-group-btn">
+            <button 
+              className="btn btn-secondary" 
+              type="button"
+              onClick={this.newBook}>
+              Add
+            </button>
+          </span>
+        </div>
       </div>
     );
   }

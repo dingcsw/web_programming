@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bottom-buffer { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -21866,7 +21866,7 @@
 
 	  _createClass(Library, [{
 	    key: 'newBookshelf',
-	    value: function newBookshelf(event) {
+	    value: function newBookshelf() {
 	      var value = this.textInput.value;
 
 	      this.setState(function (state) {
@@ -21934,7 +21934,7 @@
 	          { className: 'container' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'row bottom-buffer' },
+	            { className: 'row bottom-buffer-20' },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'input-group col-md-3' },
@@ -22008,37 +22008,44 @@
 	    var _this = _possibleConstructorReturn(this, (Bookshelf.__proto__ || Object.getPrototypeOf(Bookshelf)).call(this, props));
 
 	    _this.state = {
-	      name: _this.props.name,
-	      books: []
+	      books: [],
+	      showInputField: false
 	    };
 
 	    _this.newBook = _this.newBook.bind(_this);
+	    _this.showOrHideInputField = _this.showOrHideInputField.bind(_this);
 	    _this.renderBooks = _this.renderBooks.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Bookshelf, [{
 	    key: 'newBook',
-	    value: function newBook(event) {
+	    value: function newBook() {
 	      var _this2 = this;
 
-	      if (event.keyCode === 13 && event.target.value !== '') {
-	        fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + event.target.value).then(function (res) {
-	          return res.json();
-	        }).then(function (json) {
-	          return _this2.setState(function (state) {
-	            if (json.totalItems === 0) return state;
-	            var book = json.items[0];
-	            state.books.push({
-	              title: book['volumeInfo']['title'],
-	              author: book['volumeInfo']['authors'][0],
-	              ranking: 0
-	            });
-	            return state;
+	      fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value).then(function (res) {
+	        return res.json();
+	      }).then(function (json) {
+	        return _this2.setState(function (state) {
+	          if (json.totalItems === 0) return state;
+	          var book = json.items[0];
+	          state.books.push({
+	            title: book['volumeInfo']['title'],
+	            author: book['volumeInfo']['authors'][0],
+	            ranking: 0
 	          });
+	          return state;
 	        });
-	        event.target.value = '';
-	      }
+	      });
+	      this.textInput.value = '';
+	    }
+	  }, {
+	    key: 'showOrHideInputField',
+	    value: function showOrHideInputField() {
+	      this.setState(function (state) {
+	        state.showInputField = !state.showInputField;
+	        return state;
+	      });
 	    }
 	  }, {
 	    key: 'renderBooks',
@@ -22049,11 +22056,6 @@
 	        return _react2.default.createElement(
 	          'tr',
 	          { key: key },
-	          _react2.default.createElement(
-	            'th',
-	            null,
-	            key + 1
-	          ),
 	          _react2.default.createElement(
 	            'td',
 	            null,
@@ -22075,25 +22077,22 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      var _state = this.state,
-	          name = _state.name,
-	          books = _state.books;
+	          books = _state.books,
+	          showInputField = _state.showInputField;
+	      var name = this.props.name;
 
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'col-md-4 bookshelf' },
+	        { className: 'col-md-4  bookshelf' },
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          'Bookself name: ',
+	          { className: 'bookshelf-name' },
 	          name
 	        ),
-	        _react2.default.createElement('input', {
-	          className: 'new-book',
-	          placeholder: 'Add new book...',
-	          onKeyDown: this.newBook
-	        }),
 	        _react2.default.createElement(
 	          'table',
 	          { className: 'table table-hover' },
@@ -22103,11 +22102,6 @@
 	            _react2.default.createElement(
 	              'tr',
 	              null,
-	              _react2.default.createElement(
-	                'th',
-	                null,
-	                '#'
-	              ),
 	              _react2.default.createElement(
 	                'th',
 	                null,
@@ -22129,6 +22123,55 @@
 	            'tbody',
 	            null,
 	            this.renderBooks()
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                type: 'button',
+	                className: 'btn btn-default btn-xs',
+	                onClick: this.showOrHideInputField },
+	              _react2.default.createElement('span', {
+	                className: "glyphicon " + (showInputField ? 'glyphicon-minus' : 'glyphicon-plus'),
+	                'aria-hidden': 'true'
+	              })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'pull-right' },
+	            'Total books: ',
+	            books.length
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: "input-group top-buffer-10 " + (showInputField ? '' : 'hidden') },
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            className: 'form-control',
+	            placeholder: 'New book...',
+	            ref: function ref(_ref) {
+	              _this3.textInput = _ref;
+	            }
+	          }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'input-group-btn' },
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                className: 'btn btn-secondary',
+	                type: 'button',
+	                onClick: this.newBook },
+	              'Add'
+	            )
 	          )
 	        )
 	      );
