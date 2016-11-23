@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".col-md-4 {\n\tbackground-color: #e3e3e3;\n\tbackground-clip: content-box;\n\tpadding: 10px;\n}", ""]);
+	exports.push([module.id, ".col-md-4 {\n\tbackground-color: none;\n}\n\n.col-md-12 {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}", ""]);
 
 	// exports
 
@@ -21847,8 +21847,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Library = function (_React$Component) {
-	  _inherits(Library, _React$Component);
+	var Library = function (_Component) {
+	  _inherits(Library, _Component);
 
 	  function Library() {
 	    _classCallCheck(this, Library);
@@ -21883,7 +21883,6 @@
 	  }, {
 	    key: 'renderBookshelves',
 	    value: function renderBookshelves() {
-	      console.log(this.state.bookshelves);
 	      return this.state.bookshelves.map(function (item, key) {
 	        return _react2.default.createElement(_Bookshelf2.default, { key: key, name: item });
 	      });
@@ -21913,7 +21912,7 @@
 	  }]);
 
 	  return Library;
-	}(_react2.default.Component);
+	}(_react.Component);
 
 		exports.default = Library;
 
@@ -21921,7 +21920,7 @@
 /* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -21941,8 +21940,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Bookshelf = function (_React$Component) {
-	  _inherits(Bookshelf, _React$Component);
+	var Bookshelf = function (_Component) {
+	  _inherits(Bookshelf, _Component);
 
 	  function Bookshelf(props) {
 	    _classCallCheck(this, Bookshelf);
@@ -21953,11 +21952,69 @@
 	      name: _this.props.name,
 	      books: []
 	    };
+
+	    _this.newBook = _this.newBook.bind(_this);
+	    _this.renderBooks = _this.renderBooks.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Bookshelf, [{
-	    key: "render",
+	    key: 'newBook',
+	    value: function newBook(event) {
+	      var _this2 = this;
+
+	      if (event.keyCode === 13 && event.target.value !== '') {
+	        fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + event.target.value).then(function (res) {
+	          return res.json();
+	        }).then(function (json) {
+	          return _this2.setState(function (state) {
+	            if (json.totalItems === 0) return state;
+	            var book = json.items[0];
+	            state.books.push({
+	              title: book['volumeInfo']['title'],
+	              author: book['volumeInfo']['authors'][0],
+	              ranking: 0
+	            });
+	            return state;
+	          });
+	        });
+	        event.target.value = '';
+	      }
+	    }
+	  }, {
+	    key: 'renderBooks',
+	    value: function renderBooks() {
+	      var books = this.state.books;
+
+	      return books.map(function (item, key) {
+	        return _react2.default.createElement(
+	          'tr',
+	          { key: key },
+	          _react2.default.createElement(
+	            'th',
+	            null,
+	            key + 1
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            item.title
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            item.author
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            item.ranking
+	          )
+	        );
+	      });
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	      var _state = this.state,
 	          name = _state.name,
@@ -21965,26 +22022,66 @@
 
 
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "col-md-4" },
+	        'div',
+	        { className: 'col-md-4' },
 	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "Bookself name: ",
-	          name
-	        ),
-	        _react2.default.createElement("input", {
-	          className: "new-book",
-	          placeholder: "Add new book...",
-	          onKeyDown: this.newBook
-	        }),
-	        _react2.default.createElement("table", { className: "table table-hover" })
+	          'div',
+	          { className: 'col-md-12' },
+	          _react2.default.createElement(
+	            'div',
+	            null,
+	            'Bookself name: ',
+	            name
+	          ),
+	          _react2.default.createElement('input', {
+	            className: 'new-book',
+	            placeholder: 'Add new book...',
+	            onKeyDown: this.newBook
+	          }),
+	          _react2.default.createElement(
+	            'table',
+	            { className: 'table table-hover' },
+	            _react2.default.createElement(
+	              'thead',
+	              null,
+	              _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                  'th',
+	                  null,
+	                  '#'
+	                ),
+	                _react2.default.createElement(
+	                  'th',
+	                  null,
+	                  'Title'
+	                ),
+	                _react2.default.createElement(
+	                  'th',
+	                  null,
+	                  'Author'
+	                ),
+	                _react2.default.createElement(
+	                  'th',
+	                  null,
+	                  'Ranking'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'tbody',
+	              null,
+	              this.renderBooks()
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
 
 	  return Bookshelf;
-	}(_react2.default.Component);
+	}(_react.Component);
 
 	Bookshelf.propTypes = {
 	  name: _react2.default.PropTypes.string

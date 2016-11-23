@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Bookshelf from './Bookshelf'
 
-class Library extends React.Component {
+class Library extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,7 +25,6 @@ class Library extends React.Component {
   }
 
   renderBookshelves() {
-    console.log(this.state.bookshelves);
     return this.state.bookshelves.map((item, key) => (
       <Bookshelf key={key} name={item}/>
     ));
