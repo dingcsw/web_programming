@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import Book from './Book'
+
 class Bookshelf extends Component {
   constructor(props) {
     super(props);
@@ -37,13 +39,8 @@ class Bookshelf extends Component {
   }
 
   renderBooks() {
-    const { books } = this.state;
-    return books.map((item, key) => (
-      <tr key={key}>
-        <td>{item.title}</td>
-        <td>{item.author}</td>
-        <td>{item.ranking}</td>
-      </tr>
+    return this.state.books.map((item, key) => (
+      <Book key={key} information={item}/>
     ))
   }
 
@@ -52,53 +49,44 @@ class Bookshelf extends Component {
     const { name } = this.props;
 
     return (
-      <div className="col-md-4  bookshelf">
-        <div className="bookshelf-name">{name}</div>
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Ranking</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderBooks()}
-          </tbody>
-        </table>
+      <div className="col-md-4">
+        <div className="col-md-12 bookshelf">
+          <div className="bookshelf-name">{name}</div>
+          {this.renderBooks()}
 
-        <div>
-          <span>
-            <button 
-              type="button" 
-              className="btn btn-default btn-xs"
-              onClick={this.showOrHideInputField}>
-              <span 
-                className={"glyphicon " + (showInputField ? 'glyphicon-minus' : 'glyphicon-plus')} 
-                aria-hidden="true"
-              />
-            </button>
-          </span>
-          <span className="pull-right">
-            Total books: {books.length}
-          </span>
-        </div>
+          <div>
+            <span>
+              <button 
+                type="button" 
+                className="btn btn-default btn-xs"
+                onClick={this.showOrHideInputField}>
+                <span 
+                  className={"glyphicon " + (showInputField ? 'glyphicon-minus' : 'glyphicon-plus')} 
+                  aria-hidden="true"
+                />
+              </button>
+            </span>
+            <span className="pull-right">
+              Total books: {books.length}
+            </span>
+          </div>
 
-        <div className={"input-group top-buffer-10 " + (showInputField ? '': 'hidden')}>
-          <input 
-            type="text" 
-            className="form-control" 
-            placeholder="New book..."
-            ref={(ref) => { this.textInput = ref; }}
-          />
-          <span className="input-group-btn">
-            <button 
-              className="btn btn-secondary" 
-              type="button"
-              onClick={this.newBook}>
-              Add
-            </button>
-          </span>
+          <div className={"input-group top-buffer-10 " + (showInputField ? '': 'hidden')}>
+            <input 
+              type="text" 
+              className="form-control" 
+              placeholder="New book..."
+              ref={(ref) => { this.textInput = ref; }}
+            />
+            <span className="input-group-btn">
+              <button 
+                className="btn btn-secondary" 
+                type="button"
+                onClick={this.newBook}>
+                Add
+              </button>
+            </span>
+          </div>
         </div>
       </div>
     );
