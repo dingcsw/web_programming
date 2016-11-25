@@ -8,8 +8,21 @@
 	font-size: medium;
 }
 
+.book-btn {
+	width: 100%;
+}
+
+.progress {
+	height: 10px;
+	width: 20px;
+}
+
 .top-buffer-10 { 
 	margin-top: 10px; 
+}
+
+.bottom-buffer-10 { 
+	margin-bottom: 10px; 
 }
 
 .bottom-buffer-20 { 

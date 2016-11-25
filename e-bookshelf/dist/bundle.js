@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.book-btn {\n\twidth: 100%;\n}\n\n.progress {\n\theight: 10px;\n\twidth: 20px;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -21937,7 +21937,7 @@
 	            { className: 'row bottom-buffer-20' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'input-group col-md-3' },
+	              { className: 'input-group col-md-3 col-xs-6 col-md-offset-0 col-xs-offset-3' },
 	              _react2.default.createElement('input', {
 	                type: 'text',
 	                className: 'form-control',
@@ -22023,6 +22023,12 @@
 	  }
 
 	  _createClass(Bookshelf, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.textInput.value = '9780099908401';
+	      this.newBook();
+	    }
+	  }, {
 	    key: 'newBook',
 	    value: function newBook() {
 	      var _this2 = this;
@@ -22077,7 +22083,7 @@
 	          { className: 'col-md-12 bookshelf' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'bookshelf-name' },
+	            { className: 'bookshelf-name bottom-buffer-10' },
 	            name
 	          ),
 	          this.renderBooks(),
@@ -22194,8 +22200,12 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        information.title
+	        { className: 'btn-group-vertical bottom-buffer-10', role: 'group' },
+	        _react2.default.createElement(
+	          'button',
+	          { type: 'button', className: 'btn btn-default book-btn' },
+	          information.title
+	        )
 	      );
 	    }
 	  }]);

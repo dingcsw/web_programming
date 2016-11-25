@@ -15,6 +15,11 @@ class Bookshelf extends Component {
     this.renderBooks = this.renderBooks.bind(this);
   }
 
+  componentDidMount() {
+    this.textInput.value = '9780099908401';
+    this.newBook();
+  }
+
   newBook() {
     fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value)
       .then(res => res.json())
@@ -51,7 +56,7 @@ class Bookshelf extends Component {
     return (
       <div className="col-md-4">
         <div className="col-md-12 bookshelf">
-          <div className="bookshelf-name">{name}</div>
+          <div className="bookshelf-name bottom-buffer-10">{name}</div>
           {this.renderBooks()}
 
           <div>

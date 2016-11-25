@@ -48,7 +48,7 @@ class Library extends Component {
         </nav>
         <div className="container">
           <div className="row bottom-buffer-20">
-            <div className="input-group col-md-3">
+            <div className="input-group col-md-3 col-xs-6 col-md-offset-0 col-xs-offset-3">
               <input 
                 type="text" 
                 className="form-control" 
