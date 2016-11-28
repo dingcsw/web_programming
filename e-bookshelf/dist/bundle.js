@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.progress {\n\theight: 10px;\n\twidth: 20px;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.progress {\n\theight: 10px;\n\twidth: 20px;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -21856,7 +21856,7 @@
 	    var _this = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this));
 
 	    _this.state = {
-	      bookshelves: ['Living room', 'Restroom']
+	      bookshelves: ['Living room']
 	    };
 
 	    _this.newBookshelf = _this.newBookshelf.bind(_this);
@@ -22075,7 +22075,10 @@
 	          var book = json.items[0];
 	          state.books.push({
 	            title: book['volumeInfo']['title'],
-	            author: book['volumeInfo']['authors'][0],
+	            authors: book['volumeInfo']['authors'],
+	            description: book['volumeInfo']['description'],
+	            pageCount: book['volumeInfo']['pageCount'],
+	            imageLink: book['volumeInfo']['imageLinks']['thumbnail'],
 	            ranking: 0
 	          });
 	          return state;
@@ -22113,7 +22116,7 @@
 	            { className: 'bookshelf-name bottom-buffer-10' },
 	            name
 	          ),
-	          _react2.default.createElement(SortableList, { items: books, onSortEnd: this.onSortEnd }),
+	          _react2.default.createElement(SortableList, { items: books, onSortEnd: this.onSortEnd, pressDelay: 150 }),
 	          _react2.default.createElement(
 	            'div',
 	            null,
@@ -22193,6 +22196,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _genid = __webpack_require__(351);
+
+	var _genid2 = _interopRequireDefault(_genid);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22213,12 +22220,32 @@
 	      progress: 0,
 	      review: ''
 	    };
+
+	    _this.openModal = _this.openModal.bind(_this);
+	    _this.closeModal = _this.closeModal.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Book, [{
+	    key: 'openModal',
+	    value: function openModal() {
+	      this.setState(function (state) {
+	        state.modalIsOpen = true;
+	        return state;
+	      });
+	    }
+	  }, {
+	    key: 'closeModal',
+	    value: function closeModal() {
+	      this.setState(function (state) {
+	        state.modalIsOpen = false;
+	        return state;
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var id = (0, _genid2.default)();
 	      var _state = this.state,
 	          progress = _state.progress,
 	          review = _state.review;
@@ -22226,15 +22253,102 @@
 
 
 	      return _react2.default.createElement(
-	        'button',
-	        { type: 'button', className: 'list-group-item' },
-	        information.title
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          {
+	            type: 'button',
+	            className: 'list-group-item',
+	            'data-toggle': 'modal',
+	            'data-target': '#modal-' + id
+	          },
+	          information.title
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'modal fade', id: 'modal-' + id, tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel', 'aria-hidden': 'true' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'modal-dialog', role: 'document' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'modal-content' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'modal-header' },
+	                _react2.default.createElement(
+	                  'button',
+	                  { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+	                  _react2.default.createElement(
+	                    'span',
+	                    { 'aria-hidden': 'true' },
+	                    '\xD7'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'h4',
+	                  { className: 'modal-title', id: 'myModalLabel' },
+	                  information.title
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'modal-body' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'row' },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-md-3 col-xs-3' },
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'thumbnail' },
+	                      _react2.default.createElement('img', { src: information.imageLink, alt: information.title })
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-md-9 col-xs-9' },
+	                    _react2.default.createElement(
+	                      'p',
+	                      null,
+	                      _react2.default.createElement(
+	                        'b',
+	                        null,
+	                        'Authors:'
+	                      ),
+	                      ' ',
+	                      information.authors
+	                    ),
+	                    _react2.default.createElement(
+	                      'p',
+	                      null,
+	                      _react2.default.createElement(
+	                        'b',
+	                        null,
+	                        'Description:'
+	                      ),
+	                      ' ',
+	                      information.description
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
 
 	  return Book;
 	}(_react.Component);
+	/*
+	              <div className="modal-footer">
+	                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+	                <button type="button" className="btn btn-primary">Save changes</button>
+	              </div>*/
 
 	Book.propTypes = {
 	  information: _react2.default.PropTypes.object.isRequired
@@ -28043,6 +28157,43 @@
 	        return _class;
 	    }(_react.Component), _class.displayName = WrappedComponent.displayName ? 'SortableHandle(' + WrappedComponent.displayName + ')' : 'SortableHandle', _class.WrappedComponent = WrappedComponent, _temp;
 	}
+
+/***/ },
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	exports.default = function () {
+	  curId++;
+	  return curId;
+	};
+
+		var curId = 0;
 
 /***/ }
 /******/ ]);

@@ -6,7 +6,7 @@ class Library extends Component {
   constructor() {
     super();
     this.state = {
-      bookshelves: [ 'Living room', 'Restroom' ],
+      bookshelves: [ 'Living room' ],
     };
 
     this.newBookshelf = this.newBookshelf.bind(this);
@@ -46,6 +46,7 @@ class Library extends Component {
             </ul>
           </div>
         </nav>
+
         <div className="container">
           <div className="row bottom-buffer-20">
             <div className="input-group col-md-3 col-xs-6 col-md-offset-0 col-xs-offset-3">

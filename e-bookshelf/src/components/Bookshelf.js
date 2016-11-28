@@ -54,7 +54,10 @@ class Bookshelf extends Component {
         const book = json.items[0];
         state.books.push({
           title: book['volumeInfo']['title'],
-          author: book['volumeInfo']['authors'][0],
+          authors: book['volumeInfo']['authors'],
+          description: book['volumeInfo']['description'],
+          pageCount: book['volumeInfo']['pageCount'],
+          imageLink: book['volumeInfo']['imageLinks']['thumbnail'],
           ranking: 0,            
         })
         return state;
@@ -78,7 +81,7 @@ class Bookshelf extends Component {
         <div className="col-md-12 bookshelf">
           <div className="bookshelf-name bottom-buffer-10">{name}</div>
           
-          <SortableList items={books} onSortEnd={this.onSortEnd}/>
+          <SortableList items={books} onSortEnd={this.onSortEnd} pressDelay={150}/>
 
           <div>
             <span>
