@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.progress {\n\theight: 10px;\n\twidth: 20px;\n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -22076,6 +22076,7 @@
 	          state.books.push({
 	            title: book['volumeInfo']['title'],
 	            authors: book['volumeInfo']['authors'],
+	            categories: book['volumeInfo']['categories'],
 	            description: book['volumeInfo']['description'],
 	            pageCount: book['volumeInfo']['pageCount'],
 	            imageLink: book['volumeInfo']['imageLinks']['thumbnail'],
@@ -22217,7 +22218,7 @@
 	    var _this = _possibleConstructorReturn(this, (Book.__proto__ || Object.getPrototypeOf(Book)).call(this, props));
 
 	    _this.state = {
-	      progress: 0,
+	      readCount: 1,
 	      review: ''
 	    };
 
@@ -22247,10 +22248,14 @@
 	    value: function render() {
 	      var id = (0, _genid2.default)();
 	      var _state = this.state,
-	          progress = _state.progress,
+	          readCount = _state.readCount,
 	          review = _state.review;
 	      var information = this.props.information;
 
+	      var progressStyle = {
+	        minWidth: '3em',
+	        width: readCount / information.pageCount * 100 + '%'
+	      };
 
 	      return _react2.default.createElement(
 	        'div',
@@ -22267,7 +22272,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'modal fade', id: 'modal-' + id, tabIndex: '-1', role: 'dialog', 'aria-labelledby': 'myModalLabel', 'aria-hidden': 'true' },
+	          { className: 'modal fade', id: 'modal-' + id, tabIndex: '-1', role: 'dialog' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'modal-dialog', role: 'document' },
@@ -22287,7 +22292,7 @@
 	                  )
 	                ),
 	                _react2.default.createElement(
-	                  'h4',
+	                  'h3',
 	                  { className: 'modal-title', id: 'myModalLabel' },
 	                  information.title
 	                )
@@ -22300,7 +22305,7 @@
 	                  { className: 'row' },
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'col-md-3 col-xs-3' },
+	                    { className: 'col-md-4 col-xs-4' },
 	                    _react2.default.createElement(
 	                      'div',
 	                      { className: 'thumbnail' },
@@ -22309,7 +22314,7 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
-	                    { className: 'col-md-9 col-xs-9' },
+	                    { className: 'col-md-8 col-xs-8' },
 	                    _react2.default.createElement(
 	                      'p',
 	                      null,
@@ -22327,13 +22332,45 @@
 	                      _react2.default.createElement(
 	                        'b',
 	                        null,
+	                        'Categories:'
+	                      ),
+	                      ' ',
+	                      information.categories
+	                    ),
+	                    _react2.default.createElement(
+	                      'p',
+	                      null,
+	                      _react2.default.createElement(
+	                        'b',
+	                        null,
 	                        'Description:'
 	                      ),
 	                      ' ',
 	                      information.description
+	                    ),
+	                    _react2.default.createElement(
+	                      'p',
+	                      null,
+	                      _react2.default.createElement(
+	                        'b',
+	                        null,
+	                        'Reading Progress:'
+	                      )
+	                    ),
+	                    _react2.default.createElement(
+	                      'div',
+	                      { className: 'progress' },
+	                      _react2.default.createElement(
+	                        'div',
+	                        { className: 'progress-bar', role: 'progressbar', style: progressStyle },
+	                        readCount,
+	                        '/',
+	                        information.pageCount
+	                      )
 	                    )
 	                  )
-	                )
+	                ),
+	                _react2.default.createElement('div', { className: 'row' })
 	              )
 	            )
 	          )

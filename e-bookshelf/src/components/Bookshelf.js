@@ -55,6 +55,7 @@ class Bookshelf extends Component {
         state.books.push({
           title: book['volumeInfo']['title'],
           authors: book['volumeInfo']['authors'],
+          categories: book['volumeInfo']['categories'],
           description: book['volumeInfo']['description'],
           pageCount: book['volumeInfo']['pageCount'],
           imageLink: book['volumeInfo']['imageLinks']['thumbnail'],

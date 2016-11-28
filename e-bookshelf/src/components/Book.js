@@ -6,7 +6,7 @@ class Book extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: 0,
+      readCount: 1,
       review: ''
     };
 
@@ -30,8 +30,12 @@ class Book extends Component {
 
   render() {
     const id = genid();
-    const { progress, review } = this.state;
+    const { readCount, review } = this.state;
     const { information } = this.props;
+    const progressStyle = {
+      minWidth: '3em',
+      width: `${readCount / information.pageCount * 100}%`
+    }
 
     return (
       <div>
@@ -44,26 +48,35 @@ class Book extends Component {
           {information.title}
         </button>
 
-        <div className="modal fade" id={`modal-${id}`} tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div className="modal fade" id={`modal-${id}`} tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 className="modal-title" id="myModalLabel">{information.title}</h4>
+                <h3 className="modal-title" id="myModalLabel">{information.title}</h3>
               </div>
               <div className="modal-body">
                 <div className="row">
-                  <div className="col-md-3 col-xs-3">
+                  <div className="col-md-4 col-xs-4">
                     <div className="thumbnail">
                       <img src={information.imageLink} alt={information.title}/>
                     </div>
                   </div>
-                  <div className="col-md-9 col-xs-9">
+                  <div className="col-md-8 col-xs-8">
                     <p><b>Authors:</b> {information.authors}</p>
+                    <p><b>Categories:</b> {information.categories}</p>
                     <p><b>Description:</b> {information.description}</p>
+                    <p><b>Reading Progress:</b></p>
+                    <div className="progress">
+                      <div className="progress-bar" role="progressbar" style={progressStyle}>
+                        {readCount}/{information.pageCount}
+                      </div>
+                    </div>
                   </div>
+                </div>
+                <div className="row">
                 </div>
               </div>
             </div>
