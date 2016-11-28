@@ -6,7 +6,7 @@ class Library extends Component {
   constructor() {
     super();
     this.state = {
-      bookshelves: [ 'living room', 'restroom' ],
+      bookshelves: [ 'Living room', 'Restroom' ],
     };
 
     this.newBookshelf = this.newBookshelf.bind(this);
@@ -23,8 +23,8 @@ class Library extends Component {
   }
 
   renderBookshelves() {
-    return this.state.bookshelves.map((item, key) => (
-      <Bookshelf key={key} name={item} />
+    return this.state.bookshelves.map((item, index) => (
+      <Bookshelf key={`bookshelf-${index}`} name={item} />
     ));
   }
 

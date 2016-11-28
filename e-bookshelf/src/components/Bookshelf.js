@@ -1,6 +1,21 @@
 import React, { Component, PropTypes } from 'react';
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
 import Book from './Book'
+
+const SortableItem = SortableElement(({value}) => (
+  <Book information={value}/>
+));
+
+const SortableList = SortableContainer(({items}) => {
+  return (
+    <div className="list-group">
+      {items.map((value, index) => 
+        <SortableItem key={`book-${index}`} index={index} value={value} />
+      )}
+    </div>
+  );
+});
 
 class Bookshelf extends Component {
   constructor(props) {
@@ -12,12 +27,23 @@ class Bookshelf extends Component {
 
     this.newBook = this.newBook.bind(this);
     this.showOrHideInputField = this.showOrHideInputField.bind(this);
-    this.renderBooks = this.renderBooks.bind(this);
+    this.onSortEnd = this.onSortEnd.bind(this);
   }
 
   componentDidMount() {
     this.textInput.value = '9780099908401';
     this.newBook();
+    this.textInput.value = '9781597226769';
+    this.newBook();
+    this.textInput.value = '9781467286787';
+    this.newBook();
+  }
+
+  onSortEnd({oldIndex, newIndex}) {
+    this.setState((state) => {
+      state.books = arrayMove(state.books, oldIndex, newIndex);
+      return state;
+    });
   }
 
   newBook() {
@@ -43,21 +69,16 @@ class Bookshelf extends Component {
     })
   }
 
-  renderBooks() {
-    return this.state.books.map((item, key) => (
-      <Book key={key} information={item}/>
-    ))
-  }
-
   render() {
     const { books, showInputField } = this.state;
     const { name } = this.props;
-
+    
     return (
       <div className="col-md-4">
         <div className="col-md-12 bookshelf">
           <div className="bookshelf-name bottom-buffer-10">{name}</div>
-          {this.renderBooks()}
+          
+          <SortableList items={books} onSortEnd={this.onSortEnd}/>
 
           <div>
             <span>
@@ -99,7 +120,7 @@ class Bookshelf extends Component {
 } 
 
 Bookshelf.propTypes = {
-  name: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
 };
 
 export default Bookshelf;

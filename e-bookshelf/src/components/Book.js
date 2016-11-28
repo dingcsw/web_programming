@@ -14,11 +14,9 @@ class Book extends Component {
     const { information } = this.props;
 
     return (
-      <div className="btn-group-vertical bottom-buffer-10" role="group">
-        <button type="button" className="btn btn-default book-btn">
-          {information.title}
-        </button>
-      </div>
+      <button type="button" className="list-group-item">
+        {information.title}
+      </button>
     );
   }
 }
