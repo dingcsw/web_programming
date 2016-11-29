@@ -31,39 +31,31 @@ class Library extends Component {
   render() {
     return(
       <div>
-        <nav className="navbar navbar-default navbar-static-top">
+        <nav className="navbar navbar-fixed-top navbar-dark bg-inverse">
           <div className="container">
-            <div className="navbar-header">
-              <a className="navbar-brand" href="#/">E-Bookshelf</a>
-            </div>
-            <ul className="nav navbar-nav">
-              <li>
-                <a href="#/">Home</a>
-              </li>
-              <li>
-                <a href="#/bookshelves">Bookshelves</a>
-              </li>
-            </ul>
+            <a className="navbar-brand" href="#/">E-Bookshelf</a>
           </div>
         </nav>
 
-        <div className="container">
+        <div className="container nav-above">
           <div className="row bottom-buffer-20">
-            <div className="input-group col-md-3 col-xs-6 col-md-offset-0 col-xs-offset-3">
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="New bookshelf..."
-                ref={(input) => { this.textInput = input; }}
-              />
-              <span className="input-group-btn">
-                <button 
-                  className="btn btn-secondary" 
-                  type="button"
-                  onClick={this.newBookshelf}>
-                  Add
-                </button>
-              </span>
+            <div className="col-md-4">
+              <div className="input-group">
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  placeholder="New bookshelf..."
+                  ref={(input) => { this.textInput = input; }}
+                />
+                <span className="input-group-btn">
+                  <button 
+                    className="btn btn-secondary" 
+                    type="button"
+                    onClick={this.newBookshelf}>
+                    Add
+                  </button>
+                </span>
+              </div>
             </div>
           </div>
           <div className="row">

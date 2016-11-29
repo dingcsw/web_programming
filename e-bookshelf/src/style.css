@@ -8,9 +8,21 @@
 	font-size: medium;
 }
 
+p {
+	margin-bottom: 0.5rem;
+}
+
+.list-group-item {
+	padding: .5rem 0.75rem;
+}
+
 .panel {
 	margin-top: 5px; 
 	margin-bottom: 5px; 
+}
+
+.nav-above {
+	margin-top: 70px; 
 }
 
 .top-buffer-10 { 

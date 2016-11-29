@@ -76,6 +76,9 @@ class Bookshelf extends Component {
   render() {
     const { books, showInputField } = this.state;
     const { name } = this.props;
+    const showInputFieldStyle = {
+      display: (showInputField ? '' : 'none')
+    }
     
     return (
       <div className="col-md-4">
@@ -84,24 +87,22 @@ class Bookshelf extends Component {
           
           <SortableList items={books} onSortEnd={this.onSortEnd} pressDelay={150}/>
 
-          <div>
+          <div className="top-buffer-10">
             <span>
               <button 
                 type="button" 
-                className="btn btn-default btn-xs"
-                onClick={this.showOrHideInputField}>
-                <span 
-                  className={"glyphicon " + (showInputField ? 'glyphicon-minus' : 'glyphicon-plus')} 
-                  aria-hidden="true"
-                />
+                className="btn btn-secondary btn-sm"
+                onClick={this.showOrHideInputField}
+              >
+                <span>{(showInputField ? '-' : '+')}</span>
               </button>
             </span>
-            <span className="pull-right">
+            <span className="float-md-right float-sm-right">
               Total books: {books.length}
             </span>
           </div>
 
-          <div className={"input-group top-buffer-10 " + (showInputField ? '': 'hidden')}>
+          <div className="input-group top-buffer-10" style={showInputFieldStyle}>
             <input 
               type="text" 
               className="form-control" 

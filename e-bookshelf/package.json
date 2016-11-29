@@ -13,6 +13,7 @@
     "serve": "^1.4.0"
   },
   "devDependencies": {
+    "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "babel-preset-latest": "^6.16.0",
