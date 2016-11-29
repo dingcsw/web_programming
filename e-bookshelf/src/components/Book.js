@@ -36,6 +36,11 @@ class Book extends Component {
           data-target={`#modal-${id}`}
         >
           {information.title}
+          <progress 
+            className="progress progress-info float-md-right float-sm-right book-progress" 
+            value={readCount} 
+            max={information.pageCount}
+          />
         </button>
 
         <div className="modal fade" id={`modal-${id}`} tabIndex="-1" role="dialog">
@@ -63,8 +68,7 @@ class Book extends Component {
                     </p>
                     <p><b>Categories:</b> {information.categories}</p>
                     <p><b>Description:</b> {information.description}</p>
-                    <p>
-                      <b>Reading Progress:</b>
+                    <p><b>Reading Progress:</b>
                       <span className="float-md-right float-sm-right">{readCount}/{information.pageCount}</span>
                     </p>
                     <progress className="progress" value={readCount} max={information.pageCount}/>

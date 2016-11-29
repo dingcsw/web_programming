@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\np {\n\tmargin-bottom: 0.5rem;\n}\n\n.list-group-item {\n\tpadding: .5rem 0.75rem;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.nav-above {\n\tmargin-top: 70px; \n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.book-progress {\n\twidth: 8%;\n\tmargin-top: 4px;\n\tmargin-bottom: 0;\n}\n\np {\n\tmargin-bottom: 0.5rem;\n}\n\n.list-group-item {\n\tpadding: .5rem 0.75rem;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.nav-above {\n\tmargin-top: 70px; \n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -28059,7 +28059,12 @@
 	            'data-toggle': 'modal',
 	            'data-target': '#modal-' + id
 	          },
-	          information.title
+	          information.title,
+	          _react2.default.createElement('progress', {
+	            className: 'progress progress-info float-md-right float-sm-right book-progress',
+	            value: readCount,
+	            max: information.pageCount
+	          })
 	        ),
 	        _react2.default.createElement(
 	          'div',
