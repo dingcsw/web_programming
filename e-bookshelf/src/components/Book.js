@@ -26,7 +26,7 @@ class Book extends Component {
     const id = genid();
     const { readCount, review } = this.state;
     const { information } = this.props;
-
+    
     return (
       <div>
         <button

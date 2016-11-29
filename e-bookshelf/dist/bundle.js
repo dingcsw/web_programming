@@ -21995,7 +21995,11 @@
 	    'div',
 	    { className: 'list-group' },
 	    items.map(function (value, index) {
-	      return _react2.default.createElement(SortableItem, { key: 'book-' + index, index: index, value: value });
+	      return _react2.default.createElement(SortableItem, {
+	        key: 'book-' + index,
+	        index: index,
+	        value: value
+	      });
 	    })
 	  );
 	});
@@ -22041,6 +22045,11 @@
 	      });
 	    }
 	  }, {
+	    key: 'shouldCancelStart',
+	    value: function shouldCancelStart(event) {
+	      return !event.target.classList.contains('list-group-item');
+	    }
+	  }, {
 	    key: 'newBook',
 	    value: function newBook() {
 	      var _this2 = this;
@@ -22049,7 +22058,7 @@
 	        return res.json();
 	      }).then(function (json) {
 	        return _this2.setState(function (state) {
-	          if (json.totalItems === 0) return state;
+	          if (json.totalItems === 0) return state; // no book found
 	          var book = json.items[0];
 	          state.books.push({
 	            title: book['volumeInfo']['title'],
@@ -22057,8 +22066,7 @@
 	            categories: book['volumeInfo']['categories'],
 	            description: book['volumeInfo']['description'],
 	            pageCount: book['volumeInfo']['pageCount'],
-	            imageLink: book['volumeInfo']['imageLinks']['thumbnail'],
-	            ranking: 0
+	            imageLink: book['volumeInfo']['imageLinks']['thumbnail']
 	          });
 	          return state;
 	        });
@@ -22098,7 +22106,12 @@
 	            { className: 'bookshelf-name bottom-buffer-10' },
 	            name
 	          ),
-	          _react2.default.createElement(SortableList, { items: books, onSortEnd: this.onSortEnd, pressDelay: 150 }),
+	          _react2.default.createElement(SortableList, {
+	            items: books,
+	            onSortEnd: this.onSortEnd,
+	            shouldCancelStart: this.shouldCancelStart,
+	            pressDelay: 150
+	          }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'top-buffer-10' },

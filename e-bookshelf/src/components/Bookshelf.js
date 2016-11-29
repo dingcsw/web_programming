@@ -11,7 +11,11 @@ const SortableList = SortableContainer(({items}) => {
   return (
     <div className="list-group">
       {items.map((value, index) => 
-        <SortableItem key={`book-${index}`} index={index} value={value} />
+        <SortableItem
+          key={`book-${index}`}
+          index={index} 
+          value={value}
+        />
       )}
     </div>
   );
@@ -46,11 +50,15 @@ class Bookshelf extends Component {
     });
   }
 
+  shouldCancelStart(event) {
+    return !event.target.classList.contains('list-group-item');
+  }
+
   newBook() {
     fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value)
       .then(res => res.json())
       .then(json => this.setState((state) => {
-        if (json.totalItems === 0) return state;
+        if (json.totalItems === 0) return state; // no book found
         const book = json.items[0];
         state.books.push({
           title: book['volumeInfo']['title'],
@@ -58,9 +66,8 @@ class Bookshelf extends Component {
           categories: book['volumeInfo']['categories'],
           description: book['volumeInfo']['description'],
           pageCount: book['volumeInfo']['pageCount'],
-          imageLink: book['volumeInfo']['imageLinks']['thumbnail'],
-          ranking: 0,            
-        })
+          imageLink: book['volumeInfo']['imageLinks']['thumbnail'],         
+        });
         return state;
       }));
     this.textInput.value = '';
@@ -85,7 +92,12 @@ class Bookshelf extends Component {
         <div className="col-md-12 bookshelf">
           <div className="bookshelf-name bottom-buffer-10">{name}</div>
           
-          <SortableList items={books} onSortEnd={this.onSortEnd} pressDelay={150}/>
+          <SortableList
+            items={books}
+            onSortEnd={this.onSortEnd}
+            shouldCancelStart={this.shouldCancelStart}
+            pressDelay={150}
+          />
 
           <div className="top-buffer-10">
             <span>
