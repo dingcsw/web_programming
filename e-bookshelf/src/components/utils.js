@@ -1,6 +1,6 @@
 let curId = 0;
 
-export default function() {
+export function genid() {
   curId++;
   return curId;
 }

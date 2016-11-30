@@ -35,6 +35,14 @@ p {
 	margin-top: 10px; 
 }
 
+.top-buffer-20 { 
+	margin-top: 20px; 
+}
+
+.top-buffer-40 { 
+	margin-top: 40px; 
+}
+
 .bottom-buffer-10 { 
 	margin-bottom: 10px; 
 }

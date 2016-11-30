@@ -21506,7 +21506,7 @@
 
 
 	// module
-	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.book-progress {\n\twidth: 8%;\n\tmargin-top: 4px;\n\tmargin-bottom: 0;\n}\n\np {\n\tmargin-bottom: 0.5rem;\n}\n\n.list-group-item {\n\tpadding: .5rem 0.75rem;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.nav-above {\n\tmargin-top: 70px; \n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
+	exports.push([module.id, ".bookshelf {\n\tbackground-color: #e3e3e3;\n\tpadding: 10px;\n}\n\n.bookshelf-name {\n\tfont-weight: bold;\n\tfont-size: medium;\n}\n\n.book-progress {\n\twidth: 8%;\n\tmargin-top: 4px;\n\tmargin-bottom: 0;\n}\n\np {\n\tmargin-bottom: 0.5rem;\n}\n\n.list-group-item {\n\tpadding: .5rem 0.75rem;\n}\n\n.panel {\n\tmargin-top: 5px; \n\tmargin-bottom: 5px; \n}\n\n.nav-above {\n\tmargin-top: 70px; \n}\n\n.top-buffer-10 { \n\tmargin-top: 10px; \n}\n\n.top-buffer-20 { \n\tmargin-top: 20px; \n}\n\n.top-buffer-40 { \n\tmargin-top: 40px; \n}\n\n.bottom-buffer-10 { \n\tmargin-bottom: 10px; \n}\n\n.bottom-buffer-20 { \n\tmargin-bottom: 20px; \n}", ""]);
 
 	// exports
 
@@ -21975,6 +21975,8 @@
 
 	var _Book2 = _interopRequireDefault(_Book);
 
+	var _utils = __webpack_require__(337);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21995,11 +21997,7 @@
 	    'div',
 	    { className: 'list-group' },
 	    items.map(function (value, index) {
-	      return _react2.default.createElement(SortableItem, {
-	        key: 'book-' + index,
-	        index: index,
-	        value: value
-	      });
+	      return _react2.default.createElement(SortableItem, { key: 'book-' + index, index: index, value: value });
 	    })
 	  );
 	});
@@ -22018,7 +22016,6 @@
 	    };
 
 	    _this.newBook = _this.newBook.bind(_this);
-	    _this.showOrHideInputField = _this.showOrHideInputField.bind(_this);
 	    _this.onSortEnd = _this.onSortEnd.bind(_this);
 	    return _this;
 	  }
@@ -22074,14 +22071,6 @@
 	      this.textInput.value = '';
 	    }
 	  }, {
-	    key: 'showOrHideInputField',
-	    value: function showOrHideInputField() {
-	      this.setState(function (state) {
-	        state.showInputField = !state.showInputField;
-	        return state;
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
@@ -22091,20 +22080,32 @@
 	          showInputField = _state.showInputField;
 	      var name = this.props.name;
 
-	      var showInputFieldStyle = {
-	        display: showInputField ? '' : 'none'
-	      };
+	      var id = (0, _utils.genid)();
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'col-md-4' },
+	        { className: 'col-md-4 col-xs-12' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-md-12 bookshelf' },
+	          { className: 'col-md-12 col-xs-12 bookshelf' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'bookshelf-name bottom-buffer-10' },
-	            name
+	            name,
+	            _react2.default.createElement(
+	              'button',
+	              {
+	                type: 'button',
+	                className: 'close',
+	                'data-toggle': 'collapse',
+	                'data-target': '#bookshelf-' + id
+	              },
+	              _react2.default.createElement(
+	                'i',
+	                { className: 'material-icons' },
+	                'settings'
+	              )
+	            )
 	          ),
 	          _react2.default.createElement(SortableList, {
 	            items: books,
@@ -22117,23 +22118,6 @@
 	            { className: 'top-buffer-10' },
 	            _react2.default.createElement(
 	              'span',
-	              null,
-	              _react2.default.createElement(
-	                'button',
-	                {
-	                  type: 'button',
-	                  className: 'btn btn-secondary btn-sm',
-	                  onClick: this.showOrHideInputField
-	                },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  showInputField ? '-' : '+'
-	                )
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'span',
 	              { className: 'float-md-right float-sm-right' },
 	              'Total books: ',
 	              books.length
@@ -22141,25 +22125,30 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'input-group top-buffer-10', style: showInputFieldStyle },
-	            _react2.default.createElement('input', {
-	              type: 'text',
-	              className: 'form-control',
-	              placeholder: 'New book...',
-	              ref: function ref(_ref4) {
-	                _this3.textInput = _ref4;
-	              }
-	            }),
+	            { className: 'collapse top-buffer-40', id: 'bookshelf-' + id },
 	            _react2.default.createElement(
-	              'span',
-	              { className: 'input-group-btn' },
+	              'div',
+	              { className: 'input-group' },
+	              _react2.default.createElement('input', {
+	                type: 'text',
+	                className: 'form-control',
+	                placeholder: 'New book...',
+	                ref: function ref(_ref4) {
+	                  _this3.textInput = _ref4;
+	                }
+	              }),
 	              _react2.default.createElement(
-	                'button',
-	                {
-	                  className: 'btn btn-secondary',
-	                  type: 'button',
-	                  onClick: this.newBook },
-	                'Add'
+	                'span',
+	                { className: 'input-group-btn' },
+	                _react2.default.createElement(
+	                  'button',
+	                  {
+	                    className: 'btn btn-secondary',
+	                    type: 'button',
+	                    onClick: this.newBook
+	                  },
+	                  'Add'
+	                )
 	              )
 	            )
 	          )
@@ -27995,9 +27984,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _genid = __webpack_require__(331);
-
-	var _genid2 = _interopRequireDefault(_genid);
+	var _utils = __webpack_require__(337);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28041,7 +28028,7 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var id = (0, _genid2.default)();
+	      var id = (0, _utils.genid)();
 	      var _state = this.state,
 	          readCount = _state.readCount,
 	          review = _state.review;
@@ -28312,7 +28299,13 @@
 		exports.default = Book;
 
 /***/ },
-/* 331 */
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28320,13 +28313,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.genid = genid;
+	var curId = 0;
 
-	exports.default = function () {
+	function genid() {
 	  curId++;
 	  return curId;
-	};
-
-		var curId = 0;
+	}
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,6 @@
 {
   "name": "e-bookshelf",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "build:watch": "npm run build -- --watch",

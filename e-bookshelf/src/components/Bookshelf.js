@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
-import Book from './Book'
+import Book from './Book';
+import { genid } from './utils';
 
 const SortableItem = SortableElement(({value}) => (
   <Book information={value}/>
@@ -11,11 +12,7 @@ const SortableList = SortableContainer(({items}) => {
   return (
     <div className="list-group">
       {items.map((value, index) => 
-        <SortableItem
-          key={`book-${index}`}
-          index={index} 
-          value={value}
-        />
+        <SortableItem key={`book-${index}`} index={index} value={value}/>
       )}
     </div>
   );
@@ -30,7 +27,6 @@ class Bookshelf extends Component {
     };
 
     this.newBook = this.newBook.bind(this);
-    this.showOrHideInputField = this.showOrHideInputField.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
   }
 
@@ -73,24 +69,25 @@ class Bookshelf extends Component {
     this.textInput.value = '';
   }
 
-  showOrHideInputField() {
-    this.setState((state) => {
-      state.showInputField = !state.showInputField;
-      return state;
-    })
-  }
-
   render() {
     const { books, showInputField } = this.state;
     const { name } = this.props;
-    const showInputFieldStyle = {
-      display: (showInputField ? '' : 'none')
-    }
+    const id = genid();
     
     return (
-      <div className="col-md-4">
-        <div className="col-md-12 bookshelf">
-          <div className="bookshelf-name bottom-buffer-10">{name}</div>
+      <div className="col-md-4 col-xs-12">
+        <div className="col-md-12 col-xs-12 bookshelf">
+          <div className="bookshelf-name bottom-buffer-10">
+            {name}
+            <button 
+              type="button" 
+              className="close" 
+              data-toggle="collapse" 
+              data-target={`#bookshelf-${id}`}
+            >
+              <i className="material-icons">settings</i>
+            </button>
+          </div>
           
           <SortableList
             items={books}
@@ -100,35 +97,29 @@ class Bookshelf extends Component {
           />
 
           <div className="top-buffer-10">
-            <span>
-              <button 
-                type="button" 
-                className="btn btn-secondary btn-sm"
-                onClick={this.showOrHideInputField}
-              >
-                <span>{(showInputField ? '-' : '+')}</span>
-              </button>
-            </span>
             <span className="float-md-right float-sm-right">
               Total books: {books.length}
             </span>
           </div>
 
-          <div className="input-group top-buffer-10" style={showInputFieldStyle}>
-            <input 
-              type="text" 
-              className="form-control" 
-              placeholder="New book..."
-              ref={(ref) => { this.textInput = ref; }}
-            />
-            <span className="input-group-btn">
-              <button 
-                className="btn btn-secondary" 
-                type="button"
-                onClick={this.newBook}>
-                Add
-              </button>
-            </span>
+          <div className="collapse top-buffer-40" id={`bookshelf-${id}`}>
+            <div className="input-group">
+              <input 
+                type="text" 
+                className="form-control" 
+                placeholder="New book..."
+                ref={(ref) => { this.textInput = ref; }}
+              />
+              <span className="input-group-btn">
+                <button 
+                  className="btn btn-secondary" 
+                  type="button"
+                  onClick={this.newBook}
+                >
+                  Add
+                </button>
+              </span>
+            </div>
           </div>
         </div>
       </div>

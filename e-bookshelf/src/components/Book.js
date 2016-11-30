@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import genid from './utils/genid';
+import { genid } from './utils';
 
 class Book extends Component {
   constructor(props) {
