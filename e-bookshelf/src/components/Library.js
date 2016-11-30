@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Bookshelf from './Bookshelf'
+import Bookshelf from './Bookshelf';
 
 class Library extends Component {
   constructor() {
@@ -29,7 +29,7 @@ class Library extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <nav className="navbar navbar-fixed-top navbar-dark bg-inverse">
           <div className="container">
@@ -41,17 +41,18 @@ class Library extends Component {
           <div className="row bottom-buffer-20">
             <div className="col-md-4">
               <div className="input-group">
-                <input 
-                  type="text" 
-                  className="form-control" 
+                <input
+                  type="text"
+                  className="form-control"
                   placeholder="New bookshelf..."
                   ref={(input) => { this.textInput = input; }}
                 />
                 <span className="input-group-btn">
-                  <button 
-                    className="btn btn-secondary" 
+                  <button
+                    className="btn btn-secondary"
                     type="button"
-                    onClick={this.newBookshelf}>
+                    onClick={this.newBookshelf}
+                  >
                     Add
                   </button>
                 </span>

@@ -21931,7 +21931,8 @@
 	                    {
 	                      className: 'btn btn-secondary',
 	                      type: 'button',
-	                      onClick: this.newBookshelf },
+	                      onClick: this.newBookshelf
+	                    },
 	                    'Add'
 	                  )
 	                )
@@ -21992,7 +21993,6 @@
 
 	var SortableList = (0, _reactSortableHoc.SortableContainer)(function (_ref2) {
 	  var items = _ref2.items;
-
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'list-group' },
@@ -22001,6 +22001,10 @@
 	    })
 	  );
 	});
+
+	var shouldCancelStart = function shouldCancelStart(event) {
+	  return !event.target.classList.contains('list-group-item');
+	};
 
 	var Bookshelf = function (_Component) {
 	  _inherits(Bookshelf, _Component);
@@ -22031,29 +22035,23 @@
 	      });
 	    }
 	  }, {
-	    key: 'shouldCancelStart',
-	    value: function shouldCancelStart(event) {
-	      console.log(event.target);
-	      return !event.target.classList.contains('list-group-item');
-	    }
-	  }, {
 	    key: 'newBook',
 	    value: function newBook() {
 	      var _this2 = this;
 
-	      fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value).then(function (res) {
+	      fetch('https://www.googleapis.com/books/v1/volumes?q=isbn:' + this.textInput.value).then(function (res) {
 	        return res.json();
 	      }).then(function (json) {
 	        return _this2.setState(function (state) {
 	          if (json.totalItems === 0) return state; // no book found
 	          var book = json.items[0];
 	          state.books.push({
-	            title: book['volumeInfo']['title'],
-	            authors: book['volumeInfo']['authors'],
-	            categories: book['volumeInfo']['categories'],
-	            description: book['volumeInfo']['description'],
-	            pageCount: book['volumeInfo']['pageCount'],
-	            imageLink: book['volumeInfo']['imageLinks']['thumbnail']
+	            title: book.volumeInfo.title,
+	            authors: book.volumeInfo.authors,
+	            categories: book.volumeInfo.categories,
+	            description: book.volumeInfo.description,
+	            pageCount: book.volumeInfo.pageCount,
+	            imageLink: book.volumeInfo.imageLinks.thumbnail
 	          });
 	          return state;
 	        });
@@ -22098,7 +22096,7 @@
 	          _react2.default.createElement(SortableList, {
 	            items: books,
 	            onSortEnd: this.onSortEnd,
-	            shouldCancelStart: this.shouldCancelStart,
+	            shouldCancelStart: shouldCancelStart,
 	            pressDelay: 150
 	          }),
 	          _react2.default.createElement(
@@ -22149,7 +22147,7 @@
 	}(_react.Component);
 
 	Bookshelf.propTypes = {
-	  name: _react2.default.PropTypes.string.isRequired
+	  name: _react.PropTypes.string.isRequired
 	};
 
 		exports.default = Bookshelf;
@@ -28206,7 +28204,7 @@
 	                      { className: 'form-group row' },
 	                      _react2.default.createElement(
 	                        'label',
-	                        { className: 'col-form-label col-md-4 col-xs-4' },
+	                        { className: 'col-form-label col-md-4 col-xs-4', htmlFor: 'inputReadCount' },
 	                        'Reading Progress'
 	                      ),
 	                      _react2.default.createElement(
@@ -28217,6 +28215,7 @@
 	                          { className: 'input-group' },
 	                          _react2.default.createElement('input', {
 	                            className: 'form-control',
+	                            id: 'inputReadCount',
 	                            type: 'number',
 	                            ref: function ref(input) {
 	                              _this3.newReadCount = input;
@@ -28238,7 +28237,7 @@
 	                      { className: 'form-group row' },
 	                      _react2.default.createElement(
 	                        'label',
-	                        { className: 'col-form-label col-md-4 col-xs-4' },
+	                        { className: 'col-form-label col-md-4 col-xs-4', htmlFor: 'inputReview' },
 	                        'Review'
 	                      ),
 	                      _react2.default.createElement(
@@ -28246,6 +28245,7 @@
 	                        { className: 'col-md-8 col-xs-8' },
 	                        _react2.default.createElement('textarea', {
 	                          className: 'form-control',
+	                          id: 'inputReview',
 	                          rows: '6',
 	                          ref: function ref(input) {
 	                            _this3.newReview = input;
@@ -28281,7 +28281,7 @@
 	}(_react.Component);
 
 	Book.propTypes = {
-	  information: _react2.default.PropTypes.object.isRequired
+	  information: _react.PropTypes.object.isRequired
 	};
 
 		exports.default = Book;
@@ -28305,7 +28305,7 @@
 	var curId = 0;
 
 	function genid() {
-	  curId++;
+	  curId += 1;
 	  return curId;
 	}
 

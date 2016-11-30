@@ -4,19 +4,21 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import Book from './Book';
 import { genid } from './utils';
 
-const SortableItem = SortableElement(({value}) => (
-  <Book information={value}/>
+const SortableItem = SortableElement(({ value }) => (
+  <Book information={value} />
 ));
 
-const SortableList = SortableContainer(({items}) => {
-  return (
-    <div className="list-group">
-      {items.map((value, index) => 
-        <SortableItem key={`book-${index}`} index={index} value={value}/>
-      )}
-    </div>
-  );
-});
+const SortableList = SortableContainer(({ items }) => (
+  <div className="list-group">
+    {items.map((value, index) =>
+      <SortableItem key={`book-${index}`} index={index} value={value} />
+    )}
+  </div>
+));
+
+const shouldCancelStart = (event) => {
+  return !event.target.classList.contains('list-group-item');
+};
 
 class Bookshelf extends Component {
   constructor(props) {
@@ -29,31 +31,26 @@ class Bookshelf extends Component {
     this.onSortEnd = this.onSortEnd.bind(this);
   }
 
-  onSortEnd({oldIndex, newIndex}) {
+  onSortEnd({ oldIndex, newIndex }) {
     this.setState((state) => {
       state.books = arrayMove(state.books, oldIndex, newIndex);
       return state;
     });
   }
 
-  shouldCancelStart(event) {
-    console.log(event.target);
-    return !event.target.classList.contains('list-group-item');
-  }
-
   newBook() {
-    fetch("https://www.googleapis.com/books/v1/volumes?q=isbn:" + this.textInput.value)
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=isbn:${this.textInput.value}`)
       .then(res => res.json())
       .then(json => this.setState((state) => {
         if (json.totalItems === 0) return state; // no book found
         const book = json.items[0];
         state.books.push({
-          title: book['volumeInfo']['title'],
-          authors: book['volumeInfo']['authors'],
-          categories: book['volumeInfo']['categories'],
-          description: book['volumeInfo']['description'],
-          pageCount: book['volumeInfo']['pageCount'],
-          imageLink: book['volumeInfo']['imageLinks']['thumbnail'],         
+          title: book.volumeInfo.title,
+          authors: book.volumeInfo.authors,
+          categories: book.volumeInfo.categories,
+          description: book.volumeInfo.description,
+          pageCount: book.volumeInfo.pageCount,
+          imageLink: book.volumeInfo.imageLinks.thumbnail,
         });
         return state;
       }));
@@ -64,26 +61,26 @@ class Bookshelf extends Component {
     const { books } = this.state;
     const { name } = this.props;
     const id = genid();
-    
+
     return (
       <div className="col-md-4 col-xs-12">
         <div className="col-md-12 col-xs-12 bookshelf">
           <div className="bookshelf-name bottom-buffer-10">
             {name}
-            <button 
-              type="button" 
-              className="close" 
-              data-toggle="collapse" 
+            <button
+              type="button"
+              className="close"
+              data-toggle="collapse"
               data-target={`#bookshelf-${id}`}
             >
               <i className="material-icons">settings</i>
             </button>
           </div>
-          
+
           <SortableList
             items={books}
             onSortEnd={this.onSortEnd}
-            shouldCancelStart={this.shouldCancelStart}
+            shouldCancelStart={shouldCancelStart}
             pressDelay={150}
           />
 
@@ -95,15 +92,15 @@ class Bookshelf extends Component {
 
           <div className="collapse top-buffer-40" id={`bookshelf-${id}`}>
             <div className="input-group">
-              <input 
-                type="text" 
-                className="form-control" 
+              <input
+                type="text"
+                className="form-control"
                 placeholder="New book..."
                 ref={(ref) => { this.textInput = ref; }}
               />
               <span className="input-group-btn">
-                <button 
-                  className="btn btn-secondary" 
+                <button
+                  className="btn btn-secondary"
                   type="button"
                   onClick={this.newBook}
                 >
@@ -116,10 +113,10 @@ class Bookshelf extends Component {
       </div>
     );
   }
-} 
+}
 
 Bookshelf.propTypes = {
-  name: React.PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default Bookshelf;

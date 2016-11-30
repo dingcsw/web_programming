@@ -26,7 +26,7 @@ class Book extends Component {
     const id = genid();
     const { readCount, review } = this.state;
     const { information } = this.props;
-    
+
     return (
       <div>
         <button
@@ -36,9 +36,9 @@ class Book extends Component {
           data-target={`#modal-${id}`}
         >
           {information.title}
-          <progress 
-            className="progress progress-info float-md-right float-sm-right book-progress" 
-            value={readCount} 
+          <progress
+            className="progress progress-info float-md-right float-sm-right book-progress"
+            value={readCount}
             max={information.pageCount}
           />
         </button>
@@ -56,7 +56,7 @@ class Book extends Component {
                 <div className="row">
                   <div className="col-md-4 col-xs-4">
                     <div className="card text-xs-center">
-                      <img className="card-img" src={information.imageLink} alt={information.title}/>
+                      <img className="card-img" src={information.imageLink} alt={information.title} />
                     </div>
                   </div>
                   <div className="col-md-8 col-xs-8">
@@ -71,7 +71,7 @@ class Book extends Component {
                     <p><b>Reading Progress:</b>
                       <span className="float-md-right float-sm-right">{readCount}/{information.pageCount}</span>
                     </p>
-                    <progress className="progress" value={readCount} max={information.pageCount}/>
+                    <progress className="progress" value={readCount} max={information.pageCount} />
                   </div>
                 </div>
                 <div className="row">
@@ -96,24 +96,30 @@ class Book extends Component {
                 <div className="container-fluid">
                   <form role="form">
                     <div className="form-group row">
-                      <label className="col-form-label col-md-4 col-xs-4">Reading Progress</label>
+                      <label className="col-form-label col-md-4 col-xs-4" htmlFor="inputReadCount">
+                        Reading Progress
+                      </label>
                       <div className="col-md-8 col-xs-8">
-                      <div className="input-group">
-                        <input 
-                          className="form-control" 
-                          type="number" 
-                          ref={(input) => { this.newReadCount = input; }} 
-                          placeholder="Current reading progress..."
-                        />
-                        <span className="input-group-addon">/{information.pageCount} pages</span>
-                      </div>
+                        <div className="input-group">
+                          <input
+                            className="form-control"
+                            id="inputReadCount"
+                            type="number"
+                            ref={(input) => { this.newReadCount = input; }}
+                            placeholder="Current reading progress..."
+                          />
+                          <span className="input-group-addon">/{information.pageCount} pages</span>
+                        </div>
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label className="col-form-label col-md-4 col-xs-4">Review</label>
+                      <label className="col-form-label col-md-4 col-xs-4" htmlFor="inputReview">
+                        Review
+                      </label>
                       <div className="col-md-8 col-xs-8">
-                        <textarea 
-                          className="form-control" 
+                        <textarea
+                          className="form-control"
+                          id="inputReview"
                           rows="6"
                           ref={(input) => { this.newReview = input; }}
                         />
@@ -135,7 +141,7 @@ class Book extends Component {
 }
 
 Book.propTypes = {
-  information: React.PropTypes.object.isRequired,
-}
+  information: PropTypes.object.isRequired,
+};
 
 export default Book;

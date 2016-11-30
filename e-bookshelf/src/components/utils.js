@@ -1,6 +1,6 @@
 let curId = 0;
 
 export function genid() {
-  curId++;
+  curId += 1;
   return curId;
 }
