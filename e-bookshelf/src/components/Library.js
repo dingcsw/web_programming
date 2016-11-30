@@ -6,7 +6,7 @@ class Library extends Component {
   constructor() {
     super();
     this.state = {
-      bookshelves: [ 'Living room' ],
+      bookshelves: [],
     };
 
     this.newBookshelf = this.newBookshelf.bind(this);

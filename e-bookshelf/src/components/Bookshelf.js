@@ -23,20 +23,10 @@ class Bookshelf extends Component {
     super(props);
     this.state = {
       books: [],
-      showInputField: false
     };
 
     this.newBook = this.newBook.bind(this);
     this.onSortEnd = this.onSortEnd.bind(this);
-  }
-
-  componentDidMount() {
-    this.textInput.value = '9780099908401';
-    this.newBook();
-    this.textInput.value = '9781597226769';
-    this.newBook();
-    this.textInput.value = '9781467286787';
-    this.newBook();
   }
 
   onSortEnd({oldIndex, newIndex}) {
@@ -47,6 +37,7 @@ class Bookshelf extends Component {
   }
 
   shouldCancelStart(event) {
+    console.log(event.target);
     return !event.target.classList.contains('list-group-item');
   }
 
@@ -70,7 +61,7 @@ class Bookshelf extends Component {
   }
 
   render() {
-    const { books, showInputField } = this.state;
+    const { books } = this.state;
     const { name } = this.props;
     const id = genid();
     

@@ -21856,7 +21856,7 @@
 	    var _this = _possibleConstructorReturn(this, (Library.__proto__ || Object.getPrototypeOf(Library)).call(this));
 
 	    _this.state = {
-	      bookshelves: ['Living room']
+	      bookshelves: []
 	    };
 
 	    _this.newBookshelf = _this.newBookshelf.bind(_this);
@@ -22011,8 +22011,7 @@
 	    var _this = _possibleConstructorReturn(this, (Bookshelf.__proto__ || Object.getPrototypeOf(Bookshelf)).call(this, props));
 
 	    _this.state = {
-	      books: [],
-	      showInputField: false
+	      books: []
 	    };
 
 	    _this.newBook = _this.newBook.bind(_this);
@@ -22021,16 +22020,6 @@
 	  }
 
 	  _createClass(Bookshelf, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.textInput.value = '9780099908401';
-	      this.newBook();
-	      this.textInput.value = '9781597226769';
-	      this.newBook();
-	      this.textInput.value = '9781467286787';
-	      this.newBook();
-	    }
-	  }, {
 	    key: 'onSortEnd',
 	    value: function onSortEnd(_ref3) {
 	      var oldIndex = _ref3.oldIndex,
@@ -22044,6 +22033,7 @@
 	  }, {
 	    key: 'shouldCancelStart',
 	    value: function shouldCancelStart(event) {
+	      console.log(event.target);
 	      return !event.target.classList.contains('list-group-item');
 	    }
 	  }, {
@@ -22075,9 +22065,7 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var _state = this.state,
-	          books = _state.books,
-	          showInputField = _state.showInputField;
+	      var books = this.state.books;
 	      var name = this.props.name;
 
 	      var id = (0, _utils.genid)();
